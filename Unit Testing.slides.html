@@ -11995,39 +11995,39 @@ a.anchor-link {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> cosmology.py
-import numpy as np
-from scipy.integrate import quad
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> cosmology.py</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="k">import</span> <span class="n">quad</span>
 
 
-class Cosmology:
-    def __init__(self, omega_m=0.3, omega_l=0.7, h=0.7):
-        self.omega_m = omega_m
-        self.omega_l = omega_l
-        self.omega_k = 1. - self.omega_m - self.omega_l
-        self.h = h
-        self.dh = 3000 / self.h   # Hubble distance in Mpc.
-        return
+<span class="k">class</span> <span class="nc">Cosmology</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">omega_m</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">omega_l</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega_m</span> <span class="o">=</span> <span class="n">omega_m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega_l</span> <span class="o">=</span> <span class="n">omega_l</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega_k</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_m</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_l</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="n">h</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dh</span> <span class="o">=</span> <span class="mi">3000</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span>   <span class="c1"># Hubble distance in Mpc.</span>
+        <span class="k">return</span>
 
-    def Ez(self, z):
-        e = np.sqrt(self.omega_m * (1 + z)**3 + self.omega_k * (1 + z)**2
-                    + self.omega_l)
-        return e
+    <span class="k">def</span> <span class="nf">Ez</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega_m</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_k</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_l</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">e</span>
 
-    def ooEz(self, z):
-        &quot;&quot;&quot;Returns 1/E(z)&quot;&quot;&quot;
-        return 1 / self.Ez(z)
+    <span class="k">def</span> <span class="nf">ooEz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns 1/E(z)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ez</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
 
-    def comoving_line_of_sight_distance(self, z1, z2):
-        &quot;&quot;&quot;Returns the line of sight comoving distance between objects at
-        redshifts z1 and z2, z2&gt;z1. Value is in Mpc/h&quot;&quot;&quot;
-        if z1 &gt;= z2:
-            raise ValueError(&quot;z2 must be greater than z1&quot;)
-        dclos = self.dh * quad(self.ooEz, z1, z2)[0]
-        return dclos
+    <span class="k">def</span> <span class="nf">comoving_line_of_sight_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the line of sight comoving distance between objects at</span>
+<span class="sd">        redshifts z1 and z2, z2&gt;z1. Value is in Mpc/h&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">z1</span> <span class="o">&gt;=</span> <span class="n">z2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;z2 must be greater than z1&quot;</span><span class="p">)</span>
+        <span class="n">dclos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dh</span> <span class="o">*</span> <span class="n">quad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ooEz</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">dclos</span>
 
-    def angular_diameter_distance(self, z1, z2):
-        raise NotImplementedError(&quot;not yet&quot;)
+    <span class="k">def</span> <span class="nf">angular_diameter_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;not yet&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12044,7 +12044,7 @@ class Cosmology:
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Overwriting cosmology.py
+<pre>Writing cosmology.py
 </pre>
 </div>
 </div>
@@ -12071,21 +12071,21 @@ class Cosmology:
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> test_cosmology.py
-from cosmology import Cosmology
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> test_cosmology.py</span>
+<span class="kn">from</span> <span class="nn">cosmology</span> <span class="k">import</span> <span class="n">Cosmology</span>
 
-from numpy.testing import assert_almost_equal
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">assert_almost_equal</span>
 
 
-def test_ez():
-    cosmo = Cosmology()
-    actual = cosmo.Ez(1)
-    assert_almost_equal(actual, 1.7606816861659007)
+<span class="k">def</span> <span class="nf">test_ez</span><span class="p">():</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">Ez</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="mf">1.7606816861659007</span><span class="p">)</span>
     
-def test_comoving_line_of_sight_distance():
-    cosmo = Cosmology()
-    actual = cosmo.comoving_line_of_sight_distance(0, 1)
-    assert_almost_equal(actual, 3306.1159989763337)
+<span class="k">def</span> <span class="nf">test_comoving_line_of_sight_distance</span><span class="p">():</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_line_of_sight_distance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="mf">3306.1159989763337</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12102,7 +12102,7 @@ def test_comoving_line_of_sight_distance():
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Overwriting test_cosmology.py
+<pre>Writing test_cosmology.py
 </pre>
 </div>
 </div>
@@ -12137,13 +12137,11 @@ def test_comoving_line_of_sight_distance():
 platform linux -- Python 3.6.4, pytest-3.3.2, py-1.5.2, pluggy-0.6.0
 rootdir: /home/joerg/TALKS/2018-05-08_code-coffee, inifile:
 plugins: remotedata-0.2.0, openfiles-0.2.0, doctestplus-0.1.2, cov-2.5.1, arraydiff-0.2, hypothesis-3.38.5
-collected 11 items                                                             
+collected 2 items                                                              <span class="ansi-bold">
 
-test_cosmology.py ..<span class="ansi-cyan-fg">                                                     [ 18%]</span>
-test_cosmology_class.py .....x<span class="ansi-cyan-fg">                                           [ 72%]</span>
-test_fib.py ..s<span class="ansi-cyan-fg">                                                          [100%]</span>
+test_cosmology.py ..</span><span class="ansi-cyan-intense-fg ansi-bold">                                                     [100%]</span>
 
-<span class="ansi-green-intense-fg ansi-bold">================ 9 passed, 1 skipped, 1 xfailed in 0.19 seconds ================</span>
+<span class="ansi-green-intense-fg ansi-bold">=========================== 2 passed in 0.09 seconds ===========================</span>
 </pre>
 </div>
 </div>
@@ -12165,31 +12163,31 @@ test_fib.py ..s<span class="ansi-cyan-fg">                                      
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> test_cosmology.py
-from cosmology import Cosmology
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> test_cosmology.py</span>
+<span class="kn">from</span> <span class="nn">cosmology</span> <span class="k">import</span> <span class="n">Cosmology</span>
 
-import pytest
+<span class="kn">import</span> <span class="nn">pytest</span>
 
-from numpy.testing import assert_almost_equal
-
-
-def test_ez():
-    cosmo = Cosmology()
-    actual = cosmo.Ez(1)
-    assert_almost_equal(actual, 1.7606816861659007)
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">assert_almost_equal</span>
 
 
-def test_comoving_line_of_sight_distance():
-    cosmo = Cosmology()
-    actual = cosmo.comoving_line_of_sight_distance(0, 1)
-    assert_almost_equal(actual, 3306.1159989763337)
+<span class="k">def</span> <span class="nf">test_ez</span><span class="p">():</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">Ez</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="mf">1.7606816861659007</span><span class="p">)</span>
 
 
-def test_comoving_line_of_sight_distance_exception():
-    cosmo = Cosmology()
-    with pytest.raises(ValueError) as err:
-        cosmo.comoving_line_of_sight_distance(1, 0)
-    assert &quot;z2 must be greater than z1&quot; in str(err.value)
+<span class="k">def</span> <span class="nf">test_comoving_line_of_sight_distance</span><span class="p">():</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_line_of_sight_distance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="mf">3306.1159989763337</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_comoving_line_of_sight_distance_exception</span><span class="p">():</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_line_of_sight_distance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s2">&quot;z2 must be greater than z1&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12241,13 +12239,11 @@ def test_comoving_line_of_sight_distance_exception():
 platform linux -- Python 3.6.4, pytest-3.3.2, py-1.5.2, pluggy-0.6.0
 rootdir: /home/joerg/TALKS/2018-05-08_code-coffee, inifile:
 plugins: remotedata-0.2.0, openfiles-0.2.0, doctestplus-0.1.2, cov-2.5.1, arraydiff-0.2, hypothesis-3.38.5
-collected 12 items                                                             
+collected 3 items                                                              <span class="ansi-bold">
 
-test_cosmology.py ...<span class="ansi-cyan-fg">                                                    [ 25%]</span>
-test_cosmology_class.py .....x<span class="ansi-cyan-fg">                                           [ 75%]</span>
-test_fib.py ..s<span class="ansi-cyan-fg">                                                          [100%]</span>
+test_cosmology.py ...</span><span class="ansi-cyan-intense-fg ansi-bold">                                                    [100%]</span>
 
-<span class="ansi-green-intense-fg ansi-bold">=============== 10 passed, 1 skipped, 1 xfailed in 0.18 seconds ================</span>
+<span class="ansi-green-intense-fg ansi-bold">=========================== 3 passed in 0.08 seconds ===========================</span>
 </pre>
 </div>
 </div>
@@ -12277,34 +12273,34 @@ test_fib.py ..s<span class="ansi-cyan-fg">                                      
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> test_cosmology.py
-from cosmology import Cosmology
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> test_cosmology.py</span>
+<span class="kn">from</span> <span class="nn">cosmology</span> <span class="k">import</span> <span class="n">Cosmology</span>
 
-import pytest
+<span class="kn">import</span> <span class="nn">pytest</span>
 
-from numpy.testing import assert_almost_equal
-
-
-@pytest.mark.parametrize(&#39;z, expected&#39;, [(0.1, 1.048475083156486),
-                                         (0.5, 1.3086252328302401),
-                                         (1.0, 1.7606816861659007)])
-def test_ez(z, expected):
-    cosmo = Cosmology()
-    actual = cosmo.Ez(z)
-    assert_almost_equal(actual, expected)
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">assert_almost_equal</span>
 
 
-def test_comoving_line_of_sight_distance():
-    cosmo = Cosmology()
-    actual = cosmo.comoving_line_of_sight_distance(0, 1)
-    assert_almost_equal(actual, 3306.1159989763337)
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;z, expected&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.048475083156486</span><span class="p">),</span>
+                                         <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.3086252328302401</span><span class="p">),</span>
+                                         <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.7606816861659007</span><span class="p">)])</span>
+<span class="k">def</span> <span class="nf">test_ez</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">Ez</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
 
 
-def test_comoving_line_of_sight_distance_exception():
-    cosmo = Cosmology()
-    with pytest.raises(ValueError) as err:
-        cosmo.comoving_line_of_sight_distance(1, 0)
-    assert &quot;z2 must be greater than z1&quot; in str(err.value)
+<span class="k">def</span> <span class="nf">test_comoving_line_of_sight_distance</span><span class="p">():</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_line_of_sight_distance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="mf">3306.1159989763337</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_comoving_line_of_sight_distance_exception</span><span class="p">():</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_line_of_sight_distance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s2">&quot;z2 must be greater than z1&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12356,13 +12352,11 @@ def test_comoving_line_of_sight_distance_exception():
 platform linux -- Python 3.6.4, pytest-3.3.2, py-1.5.2, pluggy-0.6.0
 rootdir: /home/joerg/TALKS/2018-05-08_code-coffee, inifile:
 plugins: remotedata-0.2.0, openfiles-0.2.0, doctestplus-0.1.2, cov-2.5.1, arraydiff-0.2, hypothesis-3.38.5
-collected 14 items                                                             
+collected 5 items                                                              <span class="ansi-bold">
 
-test_cosmology.py .....<span class="ansi-cyan-fg">                                                  [ 35%]</span>
-test_cosmology_class.py .....x<span class="ansi-cyan-fg">                                           [ 78%]</span>
-test_fib.py ..s<span class="ansi-cyan-fg">                                                          [100%]</span>
+test_cosmology.py .....</span><span class="ansi-cyan-intense-fg ansi-bold">                                                  [100%]</span>
 
-<span class="ansi-green-intense-fg ansi-bold">=============== 12 passed, 1 skipped, 1 xfailed in 0.18 seconds ================</span>
+<span class="ansi-green-intense-fg ansi-bold">=========================== 5 passed in 0.09 seconds ===========================</span>
 </pre>
 </div>
 </div>
@@ -12376,41 +12370,41 @@ test_fib.py ..s<span class="ansi-cyan-fg">                                      
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> test_cosmology.py
-from cosmology import Cosmology
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> test_cosmology.py</span>
+<span class="kn">from</span> <span class="nn">cosmology</span> <span class="k">import</span> <span class="n">Cosmology</span>
 
-import pytest
+<span class="kn">import</span> <span class="nn">pytest</span>
 
-from numpy.testing import assert_almost_equal
-
-
-@pytest.mark.xfail
-def test_angular_diameter_distance():
-    cosmo = Cosmology()
-    actual = cosmo.angular_diameter_distance(0, 1)
-    desired = 1156.34008206
-    assert_almost_equal(actual, desired)
-
-@pytest.mark.parametrize(&#39;z, expected&#39;, [(0.1, 1.048475083156486),
-                                         (0.5, 1.3086252328302401),
-                                         (1.0, 1.7606816861659007)])
-def test_ez(z, expected):
-    cosmo = Cosmology()
-    actual = cosmo.Ez(z)
-    assert_almost_equal(actual, expected)
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">assert_almost_equal</span>
 
 
-def test_comoving_line_of_sight_distance():
-    cosmo = Cosmology()
-    actual = cosmo.comoving_line_of_sight_distance(0, 1)
-    assert_almost_equal(actual, 3306.1159989763337)
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span>
+<span class="k">def</span> <span class="nf">test_angular_diameter_distance</span><span class="p">():</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">angular_diameter_distance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">desired</span> <span class="o">=</span> <span class="mf">1156.34008206</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">desired</span><span class="p">)</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;z, expected&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.048475083156486</span><span class="p">),</span>
+                                         <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.3086252328302401</span><span class="p">),</span>
+                                         <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.7606816861659007</span><span class="p">)])</span>
+<span class="k">def</span> <span class="nf">test_ez</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">Ez</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
 
 
-def test_comoving_line_of_sight_distance_exception():
-    cosmo = Cosmology()
-    with pytest.raises(ValueError) as err:
-        cosmo.comoving_line_of_sight_distance(1, 0)
-    assert &quot;z2 must be greater than z1&quot; in str(err.value)
+<span class="k">def</span> <span class="nf">test_comoving_line_of_sight_distance</span><span class="p">():</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_line_of_sight_distance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="mf">3306.1159989763337</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_comoving_line_of_sight_distance_exception</span><span class="p">():</span>
+    <span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_line_of_sight_distance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s2">&quot;z2 must be greater than z1&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12462,13 +12456,11 @@ def test_comoving_line_of_sight_distance_exception():
 platform linux -- Python 3.6.4, pytest-3.3.2, py-1.5.2, pluggy-0.6.0
 rootdir: /home/joerg/TALKS/2018-05-08_code-coffee, inifile:
 plugins: remotedata-0.2.0, openfiles-0.2.0, doctestplus-0.1.2, cov-2.5.1, arraydiff-0.2, hypothesis-3.38.5
-collected 15 items                                                             
+collected 6 items                                                              <span class="ansi-bold">
 
-test_cosmology.py x.....<span class="ansi-cyan-fg">                                                 [ 40%]</span>
-test_cosmology_class.py .....x<span class="ansi-cyan-fg">                                           [ 80%]</span>
-test_fib.py ..s<span class="ansi-cyan-fg">                                                          [100%]</span>
+test_cosmology.py x.....</span><span class="ansi-cyan-intense-fg ansi-bold">                                                 [100%]</span>
 
-<span class="ansi-green-intense-fg ansi-bold">=============== 12 passed, 1 skipped, 2 xfailed in 0.19 seconds ================</span>
+<span class="ansi-green-intense-fg ansi-bold">===================== 5 passed, 1 xfailed in 0.14 seconds ======================</span>
 </pre>
 </div>
 </div>
@@ -12491,39 +12483,39 @@ test_fib.py ..s<span class="ansi-cyan-fg">                                      
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> test_cosmology_class.py
-from cosmology import Cosmology
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> test_cosmology_class.py</span>
+<span class="kn">from</span> <span class="nn">cosmology</span> <span class="k">import</span> <span class="n">Cosmology</span>
 
-import pytest
+<span class="kn">import</span> <span class="nn">pytest</span>
 
-from numpy.testing import assert_almost_equal
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">assert_almost_equal</span>
 
 
-class TestCosmology:
-    def setup_class(cls):
-        cls.cosmo = Cosmology()
+<span class="k">class</span> <span class="nc">TestCosmology</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">setup_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">cosmo</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="p">()</span>
 
-    @pytest.mark.parametrize(&#39;z, expected&#39;, [(0.1, 1.048475083156486),
-                                         (0.5, 1.3086252328302401),
-                                         (1.0, 1.7606816861659007)])
-    def test_ez(self, z, expected):
-        actual = self.cosmo.Ez(1)
-        assert_almost_equal(actual, 1.7606816861659007)
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;z, expected&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.048475083156486</span><span class="p">),</span>
+                                         <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.3086252328302401</span><span class="p">),</span>
+                                         <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.7606816861659007</span><span class="p">)])</span>
+    <span class="k">def</span> <span class="nf">test_ez</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+        <span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cosmo</span><span class="o">.</span><span class="n">Ez</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="mf">1.7606816861659007</span><span class="p">)</span>
 
-    def test_comoving_line_of_sight_distance(self):
-        actual = self.cosmo.comoving_line_of_sight_distance(0, 1)
-        assert_almost_equal(actual, 3306.1159989763337)
+    <span class="k">def</span> <span class="nf">test_comoving_line_of_sight_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_line_of_sight_distance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="mf">3306.1159989763337</span><span class="p">)</span>
 
-    def test_comoving_line_of_sight_distance_exception(self):
-        with pytest.raises(ValueError) as err:
-            self.cosmo.comoving_line_of_sight_distance(1, 0)
-        assert &quot;z2 must be greater than z1&quot; in str(err.value)
+    <span class="k">def</span> <span class="nf">test_comoving_line_of_sight_distance_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_line_of_sight_distance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s2">&quot;z2 must be greater than z1&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
-    @pytest.mark.xfail
-    def test_angular_diameter_distance(self):
-        actual = self.cosmo.angular_diameter_distance(0, 1)
-        desired = 1156.34008206
-        assert_almost_equal(actual, desired)
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span>
+    <span class="k">def</span> <span class="nf">test_angular_diameter_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cosmo</span><span class="o">.</span><span class="n">angular_diameter_distance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">desired</span> <span class="o">=</span> <span class="mf">1156.34008206</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">desired</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12540,7 +12532,7 @@ class TestCosmology:
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Overwriting test_cosmology_class.py
+<pre>Writing test_cosmology_class.py
 </pre>
 </div>
 </div>
@@ -12575,13 +12567,12 @@ class TestCosmology:
 platform linux -- Python 3.6.4, pytest-3.3.2, py-1.5.2, pluggy-0.6.0
 rootdir: /home/joerg/TALKS/2018-05-08_code-coffee, inifile:
 plugins: remotedata-0.2.0, openfiles-0.2.0, doctestplus-0.1.2, cov-2.5.1, arraydiff-0.2, hypothesis-3.38.5
-collected 15 items                                                             
+collected 12 items                                                             <span class="ansi-bold">
 
-test_cosmology.py x.....<span class="ansi-cyan-fg">                                                 [ 40%]</span>
-test_cosmology_class.py .....x<span class="ansi-cyan-fg">                                           [ 80%]</span>
-test_fib.py ..s<span class="ansi-cyan-fg">                                                          [100%]</span>
+test_cosmology.py x.....</span><span class="ansi-cyan-intense-fg ansi-bold">                                                 [ 50%]</span>
+test_cosmology_class.py .....x<span class="ansi-cyan-fg">                                           [100%]</span>
 
-<span class="ansi-green-intense-fg ansi-bold">=============== 12 passed, 1 skipped, 2 xfailed in 0.19 seconds ================</span>
+<span class="ansi-green-intense-fg ansi-bold">===================== 10 passed, 2 xfailed in 0.16 seconds =====================</span>
 </pre>
 </div>
 </div>
@@ -12609,13 +12600,13 @@ test_fib.py ..s<span class="ansi-cyan-fg">                                      
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> fib.py
-def fibonacci(n):
-    &quot;&quot;&quot;Compute the n-th Fibonacci number by iteration&quot;&quot;&quot;
-    if n in [0, 1]:
-        return n
-    else:
-        return fibonacci(n - 1) + fibonacci(n - 2)
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> fib.py</span>
+<span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the n-th Fibonacci number by iteration&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12632,7 +12623,7 @@ def fibonacci(n):
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Overwriting fib.py
+<pre>Writing fib.py
 </pre>
 </div>
 </div>
@@ -12646,19 +12637,19 @@ def fibonacci(n):
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> test_fib.py
-from numpy.testing import assert_array_equal
-import numpy as np
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> test_fib.py</span>
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">assert_array_equal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-import pytest
+<span class="kn">import</span> <span class="nn">pytest</span>
 
-from fib import fibonacci
+<span class="kn">from</span> <span class="nn">fib</span> <span class="k">import</span> <span class="n">fibonacci</span>
 
 
-def test_fibonacci():
-    actual = np.array([fibonacci(i) for i in range(10)])
-    desired = np.array([0, 1, 1, 2, 3, 5, 8, 13, 21, 34])
-    assert_array_equal(actual, desired)
+<span class="k">def</span> <span class="nf">test_fibonacci</span><span class="p">():</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">fibonacci</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+    <span class="n">desired</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">34</span><span class="p">])</span>
+    <span class="n">assert_array_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">desired</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12675,7 +12666,7 @@ def test_fibonacci():
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Overwriting test_fib.py
+<pre>Writing test_fib.py
 </pre>
 </div>
 </div>
@@ -12710,13 +12701,13 @@ def test_fibonacci():
 platform linux -- Python 3.6.4, pytest-3.3.2, py-1.5.2, pluggy-0.6.0
 rootdir: /home/joerg/TALKS/2018-05-08_code-coffee, inifile:
 plugins: remotedata-0.2.0, openfiles-0.2.0, doctestplus-0.1.2, cov-2.5.1, arraydiff-0.2, hypothesis-3.38.5
-collected 13 items                                                             
+collected 13 items                                                             <span class="ansi-bold">
 
-test_cosmology.py x.....<span class="ansi-cyan-fg">                                                 [ 46%]</span>
+test_cosmology.py x.....</span><span class="ansi-cyan-intense-fg ansi-bold">                                                 [ 46%]</span>
 test_cosmology_class.py .....x<span class="ansi-cyan-fg">                                           [ 92%]</span>
 test_fib.py .<span class="ansi-cyan-fg">                                                            [100%]</span>
 
-<span class="ansi-green-intense-fg ansi-bold">===================== 11 passed, 2 xfailed in 0.16 seconds =====================</span>
+<span class="ansi-green-intense-fg ansi-bold">===================== 11 passed, 2 xfailed in 0.17 seconds =====================</span>
 </pre>
 </div>
 </div>
@@ -12758,7 +12749,7 @@ fibonacci(9.5)
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(&lt;class &#39;RecursionError&#39;&gt;, RecursionError(&#39;maximum recursion depth exceeded in comparison&#39;,), &lt;traceback object at 0x7f4fe0035f48&gt;)
+<pre>(&lt;class &#39;RecursionError&#39;&gt;, RecursionError(&#39;maximum recursion depth exceeded in comparison&#39;,), &lt;traceback object at 0x7f7f916e2e48&gt;)
 </pre>
 </div>
 </div>
@@ -12772,15 +12763,15 @@ fibonacci(9.5)
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> fib.py
-def fibonacci(n):
-    &quot;&quot;&quot;Compute the n-th Fibonacci number by iteration&quot;&quot;&quot;
-    if n != int(n):
-        raise ValueError(&quot;n must be integer&quot;)
-    if n in [0, 1]:
-        return n
-    else:
-        return fibonacci(n - 1) + fibonacci(n - 2)
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> fib.py</span>
+<span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the n-th Fibonacci number by iteration&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n must be integer&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12811,23 +12802,23 @@ def fibonacci(n):
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> test_fib.py
-from numpy.testing import assert_array_equal
-import numpy as np
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> test_fib.py</span>
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">assert_array_equal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-import pytest
+<span class="kn">import</span> <span class="nn">pytest</span>
 
-from fib import fibonacci
+<span class="kn">from</span> <span class="nn">fib</span> <span class="k">import</span> <span class="n">fibonacci</span>
 
 
-def test_fibonacci():
-    actual = np.array([fibonacci(i) for i in range(10)])
-    desired = np.array([0, 1, 1, 2, 3, 5, 8, 13, 21, 34])
-    assert_array_equal(actual, desired)
+<span class="k">def</span> <span class="nf">test_fibonacci</span><span class="p">():</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">fibonacci</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+    <span class="n">desired</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">34</span><span class="p">])</span>
+    <span class="n">assert_array_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">desired</span><span class="p">)</span>
 
-def test_fibonacci_int():
-    with pytest.raises(ValueError):
-        fibonacci(9.5)
+<span class="k">def</span> <span class="nf">test_fibonacci_int</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+        <span class="n">fibonacci</span><span class="p">(</span><span class="mf">9.5</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12879,9 +12870,9 @@ def test_fibonacci_int():
 platform linux -- Python 3.6.4, pytest-3.3.2, py-1.5.2, pluggy-0.6.0
 rootdir: /home/joerg/TALKS/2018-05-08_code-coffee, inifile:
 plugins: remotedata-0.2.0, openfiles-0.2.0, doctestplus-0.1.2, cov-2.5.1, arraydiff-0.2, hypothesis-3.38.5
-collected 14 items                                                             
+collected 14 items                                                             <span class="ansi-bold">
 
-test_cosmology.py x.....<span class="ansi-cyan-fg">                                                 [ 42%]</span>
+test_cosmology.py x.....</span><span class="ansi-cyan-intense-fg ansi-bold">                                                 [ 42%]</span>
 test_cosmology_class.py .....x<span class="ansi-cyan-fg">                                           [ 85%]</span>
 test_fib.py ..<span class="ansi-cyan-fg">                                                           [100%]</span>
 
@@ -12907,27 +12898,27 @@ test_fib.py ..<span class="ansi-cyan-fg">                                       
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> test_fib.py
-from numpy.testing import assert_array_equal
-import numpy as np
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> test_fib.py</span>
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">assert_array_equal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-import pytest
+<span class="kn">import</span> <span class="nn">pytest</span>
 
-from fib import fibonacci
+<span class="kn">from</span> <span class="nn">fib</span> <span class="k">import</span> <span class="n">fibonacci</span>
 
 
-def test_fibonacci():
-    actual = np.array([fibonacci(i) for i in range(10)])
-    desired = np.array([0, 1, 1, 2, 3, 5, 8, 13, 21, 34])
-    assert_array_equal(actual, desired)
+<span class="k">def</span> <span class="nf">test_fibonacci</span><span class="p">():</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">fibonacci</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+    <span class="n">desired</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">34</span><span class="p">])</span>
+    <span class="n">assert_array_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">desired</span><span class="p">)</span>
 
-def test_fibonacci_int():
-    with pytest.raises(ValueError):
-        fibonacci(9.5)
+<span class="k">def</span> <span class="nf">test_fibonacci_int</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+        <span class="n">fibonacci</span><span class="p">(</span><span class="mf">9.5</span><span class="p">)</span>
         
-@pytest.mark.slow
-def test_fibonacci_large():
-    assert fibonacci(36) == 14930352
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span>
+<span class="k">def</span> <span class="nf">test_fibonacci_large</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">fibonacci</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span> <span class="o">==</span> <span class="mi">14930352</span>
 </pre></div>
 
 </div>
@@ -12958,17 +12949,17 @@ def test_fibonacci_large():
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">writefile</span> conftest.py
-import pytest
+<div class=" highlight hl-ipython3"><pre><span></span>%%writefile<span class="o"> conftest.py</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
 
 
-def pytest_addoption(parser):
-    parser.addoption(&quot;--runslow&quot;, action=&quot;store_true&quot;, help=&quot;run slow tests&quot;)
+<span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span><span class="s2">&quot;--runslow&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;run slow tests&quot;</span><span class="p">)</span>
 
 
-def pytest_runtest_setup(item):
-    if &#39;slow&#39; in item.keywords and not item.config.getoption(&quot;--runslow&quot;):
-        pytest.skip(&quot;need --runslow option to run&quot;)
+<span class="k">def</span> <span class="nf">pytest_runtest_setup</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;slow&#39;</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">keywords</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--runslow&quot;</span><span class="p">):</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;need --runslow option to run&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12985,7 +12976,7 @@ def pytest_runtest_setup(item):
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Overwriting conftest.py
+<pre>Writing conftest.py
 </pre>
 </div>
 </div>
@@ -13020,13 +13011,13 @@ def pytest_runtest_setup(item):
 platform linux -- Python 3.6.4, pytest-3.3.2, py-1.5.2, pluggy-0.6.0
 rootdir: /home/joerg/TALKS/2018-05-08_code-coffee, inifile:
 plugins: remotedata-0.2.0, openfiles-0.2.0, doctestplus-0.1.2, cov-2.5.1, arraydiff-0.2, hypothesis-3.38.5
-collected 15 items                                                             
+collected 15 items                                                             <span class="ansi-bold">
 
-test_cosmology.py x.....<span class="ansi-cyan-fg">                                                 [ 40%]</span>
+test_cosmology.py x.....</span><span class="ansi-cyan-intense-fg ansi-bold">                                                 [ 40%]</span>
 test_cosmology_class.py .....x<span class="ansi-cyan-fg">                                           [ 80%]</span>
 test_fib.py ..s<span class="ansi-cyan-fg">                                                          [100%]</span>
 
-<span class="ansi-green-intense-fg ansi-bold">=============== 12 passed, 1 skipped, 2 xfailed in 0.19 seconds ================</span>
+<span class="ansi-green-intense-fg ansi-bold">=============== 12 passed, 1 skipped, 2 xfailed in 0.15 seconds ================</span>
 </pre>
 </div>
 </div>
@@ -13061,13 +13052,13 @@ test_fib.py ..s<span class="ansi-cyan-fg">                                      
 platform linux -- Python 3.6.4, pytest-3.3.2, py-1.5.2, pluggy-0.6.0
 rootdir: /home/joerg/TALKS/2018-05-08_code-coffee, inifile:
 plugins: remotedata-0.2.0, openfiles-0.2.0, doctestplus-0.1.2, cov-2.5.1, arraydiff-0.2, hypothesis-3.38.5
-collected 15 items                                                             
+collected 15 items                                                             <span class="ansi-bold">
 
-test_cosmology.py x.....<span class="ansi-cyan-fg">                                                 [ 40%]</span>
+test_cosmology.py x.....</span><span class="ansi-cyan-intense-fg ansi-bold">                                                 [ 40%]</span>
 test_cosmology_class.py .....x<span class="ansi-cyan-fg">                                           [ 80%]</span>
 test_fib.py ...<span class="ansi-cyan-fg">                                                          [100%]</span>
 
-<span class="ansi-green-intense-fg ansi-bold">==================== 13 passed, 2 xfailed in 14.23 seconds =====================</span>
+<span class="ansi-green-intense-fg ansi-bold">==================== 13 passed, 2 xfailed in 14.48 seconds =====================</span>
 </pre>
 </div>
 </div>
